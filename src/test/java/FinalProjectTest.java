@@ -1,4 +1,5 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -11,6 +12,8 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 public class FinalProjectTest {
@@ -36,6 +39,18 @@ public class FinalProjectTest {
          JavascriptExecutor js = (JavascriptExecutor) driver;
          WebDriverWait wait = new WebDriverWait(driver,5);
          Actions builder = new Actions(driver);
+
+         TakesScreenshot ts = (TakesScreenshot)driver;
+
+
+         File file = ts.getScreenshotAs(OutputType.FILE);
+
+         try {
+
+             FileUtils.copyFile(file, new File("./ScreenShot_Folder/Test1_Login.png"));
+         } catch (IOException e) {
+             e.printStackTrace();
+         }
 
 
          driver.findElement(By.cssSelector("a[title='Women']")).click();
@@ -146,7 +161,18 @@ public class FinalProjectTest {
          driver.findElement(By.cssSelector("a.cheque")).click();
          js.executeScript("arguments[0].scrollIntoView();",driver.findElement(By.xpath("//span[text()= 'I confirm my order']")));
          driver.findElement(By.xpath("//span[text()= 'I confirm my order']")).click();
-     }
+
+         TakesScreenshot ts1 = (TakesScreenshot)driver;
+         File file1 = ts1.getScreenshotAs(OutputType.FILE);
+
+         try {
+             FileUtils.copyFile(file1, new File("./ScreenShot_Folder/Test2_SearchUser.png"));
+         } catch (IOException e) {
+             e.printStackTrace();
+         }
+
+
+    }
     @AfterTest
     public void tearDown(){
         driver.quit();
